@@ -1,8 +1,29 @@
 .navbarContainer {
+  display: flex;
+  justify-content: space-around;
   background-color: black;
-  .navLogo {
-    width: 160px;
-    margin-left: 1rem;
-    margin-top: 0.5rem;
+  .logoContainer {
+    width: 60%;
+    .navLogo {
+      width: 160px;
+      margin-top: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .icons {
+    width: 24%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .mailIcon,
+    .phoneIcon {
+      width: 36px;
+      height: 36px;
+    }
+    .phoneIcon:active,
+    .mailIcon:active {
+      transform: scale(1.1);
+    }
   }
 }
