@@ -3,8 +3,8 @@
     width: 100%;
   }
   .jumboText {
-    position: fixed;
-    top: 35%;
+    position: absolute;
+    top: 300px;
     left: 9%;
     color: white;
     font-size: 1.2rem;
@@ -19,8 +19,8 @@
     color: white;
     font-family: "Montserrat";
     font-weight: 600;
-    position: fixed;
-    top: 48%;
+    position: absolute;
+    top: 410px;
     left: 9%;
   }
 }

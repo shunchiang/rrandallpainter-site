@@ -1,6 +1,7 @@
+import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Jumbo from "../components/Jumbo";
-import Head from "next/head";
+import Main from "../components/Main";
 const Index = () => (
   <>
     <Head>
@@ -15,6 +16,7 @@ const Index = () => (
     </Head>
     <Navbar />
     <Jumbo />
+    <Main />
   </>
 );
 
