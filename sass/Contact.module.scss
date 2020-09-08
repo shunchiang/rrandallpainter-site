@@ -1,0 +1,33 @@
+.sectionContainer {
+  font-size: 0.8rem;
+  display: flex;
+  margin-bottom: 2rem;
+  .contactBox {
+    width: 45%;
+    margin-left: 3%;
+    padding: 3%;
+    padding-top: 0;
+    .title {
+      font-weight: bold;
+    }
+  }
+  .businessHours {
+    width: 50%;
+    margin-right: 6%;
+    .hoursBox {
+      .hoursTitle {
+        font-weight: bold;
+        margin-left: 3%;
+      }
+    }
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 30px;
+    .day {
+      width: 20%;
+    }
+  }
+}
