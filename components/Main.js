@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Reviews from "./Reviews";
+import Gallery from "./Gallery";
+import Contact from "./Contact";
 import style from "../sass/Main.module.scss";
 import residentialDefault from "../images/residentialDefault.jpg";
 import commercialDefault from "../images/commercialWork.jpg";
@@ -58,6 +61,9 @@ export default function Main() {
           </div>
         </div>
       </div>
+      <Reviews />
+      <Contact />
+      <Gallery />
     </>
   );
 }
