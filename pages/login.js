@@ -11,10 +11,19 @@ export default function Login() {
     };
     setFormState(newFormData);
   };
+
+  const axiosInstance = axios.create({
+    withCredentials: true,
+  })
+
   const onSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post("https://localhost:3080/login", formState)
+    axiosInstance
+      .post("http://localhost:3080/login", {}, {
+        headers: {
+           authorization: "Basic " + btoa(formState.username+":"+formState.password)
+          }
+        })
       .then((res) => {
         console.log(res);
       })
