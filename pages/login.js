@@ -14,7 +14,7 @@ export default function Login() {
   const onSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("https://localhost:3080/login", formState)
+      .post("http://localhost:3080/login", formState)
       .then((res) => {
         console.log(res);
       })
