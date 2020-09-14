@@ -2,6 +2,9 @@
   font-size: 0.8rem;
   display: flex;
   margin-bottom: 2rem;
+  @media screen and (min-width: 850px) {
+    font-size: 1rem;
+  }
   .contactBox {
     width: 45%;
     margin-left: 3%;
@@ -14,10 +17,17 @@
   .businessHours {
     width: 50%;
     margin-right: 6%;
+
     .hoursBox {
       .hoursTitle {
         font-weight: bold;
         margin-left: 3%;
+        @media screen and (min-width: 500px) {
+          margin-left: 10%;
+        }
+        @media screen and (min-width: 850px) {
+          margin-left: 15%;
+        }
       }
     }
   }

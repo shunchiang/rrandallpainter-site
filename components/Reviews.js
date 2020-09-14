@@ -4,6 +4,7 @@ import review2 from "../images/review2.png";
 import review3 from "../images/review3.png";
 import review4 from "../images/review4.png";
 import style from "../sass/Review.module.scss";
+import useWindowSize from "../utils/useWindowSize";
 
 import {
   CarouselProvider,
@@ -14,6 +15,7 @@ import {
 } from "pure-react-carousel";
 
 export default function Reviews() {
+  const size = useWindowSize();
   return (
     <>
       <div className={style.titleBox}>
@@ -22,8 +24,9 @@ export default function Reviews() {
       </div>
       <CarouselProvider
         naturalSlideWidth={100}
-        naturalSlideHeight={100}
+        naturalSlideHeight={size.width > 850 ? 65 : size.width > 550 ? 80 : 100}
         totalSlides={4}
+        visibleSlides={size.width > 850 ? 2 : 1}
         isPlaying={true}
       >
         <Slider>
@@ -47,6 +50,7 @@ export default function Reviews() {
           <i class="fas fa-angle-right"></i>
         </ButtonNext>
       </CarouselProvider>
+      <div className={style.parallax}></div>
     </>
   );
 }

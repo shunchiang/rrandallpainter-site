@@ -1,6 +1,11 @@
 .jumboTron {
   .heroImage {
     width: 100%;
+
+    @media screen and (min-width: 500px) {
+      height: 90vh;
+      object-fit: cover;
+    }
   }
   .jumboText {
     position: absolute;
@@ -10,6 +15,9 @@
     font-size: 1.2rem;
     font-weight: 600;
     text-shadow: 2px 2px 3px #000000;
+    @media screen and (min-width: 500px) {
+      font-size: 2rem;
+    }
   }
   .ctaBtn {
     border: none;
@@ -22,5 +30,13 @@
     position: absolute;
     top: 410px;
     left: 9%;
+    cursor: pointer;
+    &:hover {
+      background-color: #f08383;
+    }
+    @media screen and (min-width: 500px) {
+      padding: 0.5rem 1rem;
+      top: 480px;
+    }
   }
 }

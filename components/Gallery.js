@@ -4,13 +4,16 @@ import style from "../sass/Gallery.module.scss";
 import blueHouse from "../images/blueHouse.jpg";
 import wood from "../images/interiorWood.jpg";
 import brownHouse from "../images/brownHouse.jpg";
+import useWindowSize from "../utils/useWindowSize";
 
 export default function Gallery() {
+  const size = useWindowSize();
   return (
     <CarouselProvider
       naturalSlideWidth={100}
       naturalSlideHeight={70}
       totalSlides={4}
+      visibleSlides={size.width > 1000 ? 2 : 1}
     >
       <Slider>
         <Slide index={0}>
