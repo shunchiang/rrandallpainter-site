@@ -21,10 +21,17 @@
     .phoneIcon {
       width: 36px;
       height: 36px;
+      cursor: pointer;
     }
     .phoneIcon:active,
     .mailIcon:active {
       transform: scale(1.1);
+    }
+    @media screen and (min-width: 500px) {
+      width: 20%;
+    }
+    @media screen and (min-width: 850px) {
+      width: 15%;
     }
   }
 }

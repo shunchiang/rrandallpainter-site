@@ -5,17 +5,35 @@
     margin-bottom: 8px;
     font-size: 1.2rem;
     text-align: center;
+    @media screen and (min-width: 850px) {
+      margin-top: 5rem;
+      font-size: 1.5rem;
+    }
   }
   .line {
     margin-left: 20%;
     margin-bottom: 5%;
     border-bottom: 2px solid black;
     width: 60%;
+    @media screen and (min-width: 850px) {
+      border-bottom: 4px solid black;
+    }
   }
 }
 
 .slide {
   width: 100%;
+  .carousel__inner-slide {
+    @media screen and (min-width: 850px) {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  @media screen and (min-width: 850px) {
+    width: 70%;
+    margin-left: 15%;
+  }
 }
 
 .btnLeft,
@@ -25,7 +43,35 @@
   position: absolute;
   font-size: 1.8rem;
   top: 1350px;
+  @media screen and (min-width: 550px) {
+    top: 1500px;
+  }
+  @media screen and (min-width: 850px) {
+    top: 1700px;
+  }
+  @media screen and (min-width: 1080px) {
+    top: 1900px;
+  }
 }
 .btnRight {
   left: 93%;
+}
+.btnLeft {
+  @media screen and (min-width: 550px) {
+    left: 2%;
+  }
+  @media screen and (min-width: 850px) {
+    left: 4%;
+  }
+}
+
+//parallax for desktop
+
+.parallax {
+  background-image: url("https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 50vh;
 }

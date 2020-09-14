@@ -14,21 +14,25 @@ export default function Login() {
 
   const axiosInstance = axios.create({
     withCredentials: true,
-  })
+  });
 
   const onSubmit = (event) => {
     event.preventDefault();
     axiosInstance
-      .post("http://localhost:3080/login", {}, {
-        headers: {
-           authorization: "Basic " + btoa(formState.username+":"+formState.password)
-          }
-        })
+      .post(
+        "http://localhost:3080/login",
+        {},
+        {
+          headers: {
+            authorization:
+              "Basic " + btoa(formState.username + ":" + formState.password),
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
       })
       .catch((err) => console.log(err.res));
-    console.log(formState);
   };
   return (
     <>
