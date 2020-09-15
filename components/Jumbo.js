@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import axios from "axios";
 import styles from "../sass/Jumbo.module.scss";
 import kitchenPhoto from "../images/kitchen1.png";
 import desktopKitchen from "../images/desktopKitchen.jpg";
