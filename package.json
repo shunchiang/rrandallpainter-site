@@ -10,6 +10,7 @@
     "pure-react-carousel": "^1.27.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-modal": "^3.11.2",
     "sass": "^1.26.10"
   },
   "devDependencies": {},
