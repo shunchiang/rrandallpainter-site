@@ -1,8 +1,10 @@
 import style from "../sass/Login.module.scss";
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Login() {
+  const router = useRouter();
   const [formState, setFormState] = useState({ username: "", password: "" });
   const onInputChange = (event) => {
     const newFormData = {
@@ -30,7 +32,11 @@ export default function Login() {
         }
       )
       .then((res) => {
-        console.log(res);
+        if (res.data) {
+          console.log(res.data);
+          localStorage.setItem("rrandall-authorization", "true");
+          router.push("/");
+        }
       })
       .catch((err) => console.log(err.res));
   };

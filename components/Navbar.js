@@ -18,7 +18,9 @@ export default function Navbar() {
         </a>
 
         <img className={styles.mailIcon} src={mailIcon} alt="mail icon" />
-        <img className={styles.phoneIcon} src={callIcon} alt="phone icon" />
+        <a href="tel:920-851-0083">
+          <img className={styles.phoneIcon} src={callIcon} alt="phone icon" />
+        </a>
       </div>
     </div>
   );
