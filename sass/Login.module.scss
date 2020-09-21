@@ -3,10 +3,18 @@
   position: absolute;
   top: 40%;
   left: 50%;
+  width: 55%;
+  @media screen and(min-width:800px) {
+    width: 25%;
+  }
   transform: translate(-50%, -50%);
   .loginBox {
     display: flex;
     flex-direction: column;
+    form {
+      display: flex;
+      flex-direction: column;
+    }
     input {
       margin-bottom: 0.5rem;
     }
