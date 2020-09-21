@@ -162,6 +162,10 @@ export default function Gallery() {
 
   useEffect(() => {
     setLogged(localStorage.getItem("rrandall-authorization"));
+    axios
+      .get("http://localhost:3080/images/")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
