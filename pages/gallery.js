@@ -39,6 +39,7 @@ const uploadModalStyle = {
     borderRadius: "8px",
     borderColor: "transparent",
     maxHeight: "60vh",
+    width: "70%",
   },
   overlay: {
     backgroundColor: "rgba(255, 255, 255, 0.37)",
@@ -46,19 +47,38 @@ const uploadModalStyle = {
 };
 
 export default function Gallery() {
+  //state declarations
   const [galleryImages, setGalleryImages] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModal] = useState(false);
   const [logged, setLogged] = useState(null);
   const [imagesToUpload, setImagesToUpload] = useState([]);
+  const [stagedImageIndex, setStagedImageIndex] = useState(0);
   const [previews, setPreviews] = useState([]);
   const [addingImage, setAddingImage] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [tagArray, setTagArray] = useState([]);
+  const [clickedTag, setClickedTag] = useState([
+    {
+      residential: false,
+      commercial: false,
+      interior: false,
+      exterior: false,
+      cabinets: false,
+    },
+  ]);
 
-  const onFileChange = (e) => {
-    setAddingImage(true);
-    setImagesToUpload([...imagesToUpload, e.target.files[0]]);
-  };
+  //variable and function declarations
+  const allTags = [
+    "residential",
+    "commercial",
+    "interior",
+    "exterior",
+    "cabinets",
+  ];
+
+  //Modal functions
 
   function openModal() {
     setIsOpen(true);
@@ -74,6 +94,37 @@ export default function Gallery() {
   function closeUploadModal() {
     setUploadModal(false);
   }
+
+  //tagging functions
+
+  function addTag(t, i) {
+    if (!tags[i]) {
+      setTags([...tags, (tags[i] = [t])]);
+    } else {
+      const temp = tags[i];
+      setTags(
+        tags.map((arr, index) => {
+          if (index == i) {
+            return (arr[i] = temp.concat(t));
+          } else {
+            return arr;
+          }
+        })
+      );
+      console.log(tags);
+    }
+  }
+
+  function clickTag(t) {
+    setClickedTag({ ...clickedTag, [t]: true });
+    console.log("index", stagedImageIndex);
+  }
+
+  function cancelTag(t) {
+    // setTagArray(tagArray.filter((e) => e !== t));
+  }
+
+  // toast functions
 
   const successToast = () =>
     toast.success(" Upload Success", {
@@ -109,6 +160,14 @@ export default function Gallery() {
       progress: undefined,
     });
 
+  // file functions
+
+  const onFileChange = (e) => {
+    setAddingImage(true);
+    setImagesToUpload([...imagesToUpload, e.target.files[0]]);
+    setStagedImageIndex(imagesToUpload.length - 1);
+  };
+
   function deleteUpload(i) {
     if (previews.length > 1) {
       const temp1 = previews.splice(i, 1);
@@ -131,7 +190,10 @@ export default function Gallery() {
       return warningToast();
     }
     const formData = new FormData();
-    imagesToUpload.forEach((e) => formData.append("images", e));
+    imagesToUpload.forEach((e, i) => {
+      formData.append("images", e);
+      formData.append("tags", tags[i]);
+    });
     for (const pair of formData.entries()) {
       console.log(pair[1]);
     }
@@ -141,6 +203,8 @@ export default function Gallery() {
         console.log(res);
         successToast();
         closeUploadModal();
+        setPreviews([]);
+        setImagesToUpload([]);
       })
       .catch((err) => {
         console.log(err);
@@ -148,12 +212,15 @@ export default function Gallery() {
       });
   }
 
+  // Side effects
+
   useEffect(() => {
     if (imagesToUpload.length && addingImage === true) {
       const objectUrl = URL.createObjectURL(
         imagesToUpload[imagesToUpload.length - 1]
       );
-      setPreviews([...previews, objectUrl]);
+      setPreviews([...previews, { [objectUrl]: imagesToUpload.length - 1 }]);
+      setStagedImageIndex(imagesToUpload.length - 1);
       console.log(previews);
       setAddingImage(false);
     }
@@ -163,7 +230,7 @@ export default function Gallery() {
   useEffect(() => {
     setLogged(localStorage.getItem("rrandall-authorization"));
     axios
-      .get("http://localhost:3080/images/")
+      .get("http://localhost:3080/images/search")
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }, []);
@@ -236,18 +303,114 @@ export default function Gallery() {
             </button>
           </form>
           <div className={style.previews}>
-            {previews.length > 0 &&
-              previews.map((p, i) => (
-                <div className={style.thumbsDiv}>
-                  <i
-                    class="far fa-times-circle"
+            {previews.length > 0 && (
+              <div className={style.staging}>
+                <div className={style.tags}>
+                  <p>Tags</p>
+
+                  {!tags[stagedImageIndex]
+                    ? allTags.map((t) => (
+                        <div
+                          className={style.tagRow}
+                          onClick={() => {
+                            addTag(t, stagedImageIndex);
+                            clickTag(t);
+                          }}
+                        >
+                          <i className="fas fa-tag"></i>
+                          <p>{t}</p>
+                        </div>
+                      ))
+                    : allTags
+                        .filter((t) => {
+                          for (
+                            let i = 0;
+                            i < tags[stagedImageIndex].length;
+                            i++
+                          ) {
+                            if (t === tags[stagedImageIndex][i]) {
+                              return false;
+                            }
+                          }
+                          return true;
+                        })
+                        .map((t) => (
+                          <div
+                            className={style.tagRow}
+                            onClick={() => {
+                              addTag(t, stagedImageIndex);
+                            }}
+                          >
+                            <i className="fas fa-tag"></i>
+                            <p>{t}</p>
+                          </div>
+                        ))}
+                  <button
+                    disabled={!tags[stagedImageIndex] ? "disabled" : null}
+                    className={
+                      tags[stagedImageIndex]
+                        ? tags[stagedImageIndex].length === 0
+                          ? style.disable
+                          : style.doneBtn
+                        : style.doneBtn
+                    }
                     onClick={() => {
-                      deleteUpload(i);
+                      console.log(tags);
                     }}
-                  ></i>
-                  <img className={style.previewThumb} src={p} />
+                  >
+                    Done
+                  </button>
                 </div>
-              ))}
+                <div className={style.StagingPicDiv}>
+                  <img
+                    style={style.stagingPic}
+                    src={Object.keys(previews[stagedImageIndex])[0]}
+                    alt="staging preview"
+                  />
+                  <div className={style.activeTags}>
+                    {tags[stagedImageIndex] &&
+                      tags[stagedImageIndex].map((t) => (
+                        <div
+                          className={style.tagRow}
+                          onClick={() => {
+                            cancelTag(t);
+                            setClickedTag({ ...clickedTag, [t]: false });
+                          }}
+                        >
+                          <i className={`${style.taggedIcon} fas fa-times`}></i>
+                          <p className={style.tagged}>{t}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className={style.thumbsDiv}>
+              {previews.length > 0 &&
+                previews.map((p, i) => (
+                  <div
+                    className={style.thumbsDiv}
+                    onClick={() => {
+                      setStagedImageIndex(i);
+                    }}
+                  >
+                    <i
+                      class="far fa-times-circle"
+                      onClick={() => {
+                        deleteUpload(i);
+                        setClickedTag({
+                          residential: false,
+                          commercial: false,
+                          interior: false,
+                          exterior: false,
+                          cabinets: false,
+                        });
+                      }}
+                    ></i>
+                    <img className={style.previewThumb} src={Object.keys(p)} />
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </Modal>

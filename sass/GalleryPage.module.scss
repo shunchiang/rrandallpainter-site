@@ -37,8 +37,17 @@
 }
 .uploadModal {
   .thumbsDiv {
-    width: 100px;
     margin-top: 0.2rem;
+    img {
+      width: 100px;
+      margin-left: 1rem;
+    }
+    i {
+      position: absolute;
+      padding-top: 5px;
+      padding-left: 1rem;
+      cursor: pointer;
+    }
   }
   .previews {
     margin-top: 1rem;
@@ -48,14 +57,81 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    @media screen and (max-width: 500px) {
-      flex-direction: column;
-    }
+    flex-direction: column;
 
-    .previewThumb {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
+    .staging {
+      max-width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .tags {
+        width: 25%;
+        .doneBtn {
+          margin-top: 0.5rem;
+          border: none;
+          color: white;
+          background: #f18c8c;
+          text-align: center;
+          width: 100%;
+          padding: 0.4rem 0.5rem;
+          cursor: pointer;
+          &:hover {
+            background: #eeb7b7;
+          }
+        }
+        .disable {
+          margin-top: 0.5rem;
+
+          cursor: text;
+          background-color: rgb(190, 190, 190);
+          color: rgb(109, 109, 109);
+          border: none;
+          width: 100%;
+          padding: 0.4rem 0.5rem;
+        }
+      }
+      .StagingPicDiv {
+        width: 65%;
+        img {
+          width: 360px;
+          height: 200px;
+          object-fit: cover;
+        }
+        .activeTags {
+          display: flex;
+        }
+      }
+      .tagRow {
+        margin-right: 0.2rem;
+        margin-top: 0.3rem;
+        display: flex;
+        align-items: center;
+        padding: 0.1rem 0.2rem;
+        text-align: center;
+        cursor: pointer;
+        i {
+          font-size: 0.7rem;
+          margin-right: 0.2rem;
+        }
+        .taggedIcon {
+          color: #f18c8c;
+        }
+        p {
+          font-size: 0.8rem;
+          margin: 0;
+          border-bottom: 1px solid #f18c8c;
+        }
+        .tagged {
+          border-bottom: none;
+        }
+      }
+    }
+    .thumbsDiv {
+      display: flex;
+      .previewThumb {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+      }
     }
   }
   .uploadInput::before,
