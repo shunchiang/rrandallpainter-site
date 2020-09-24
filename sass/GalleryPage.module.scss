@@ -36,28 +36,71 @@
   }
 }
 .uploadModal {
-  .thumbsDiv {
+  form {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .mainthumbsDiv {
+    @media screen and (max-width: 500px) {
+      margin-left: 1.2rem;
+    }
     margin-top: 0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 75px;
+      padding-top: 0.8rem;
+      font-weight: 500;
+      color: gray;
+      margin-right: 1rem;
+      p {
+        margin: 0;
+      }
+      @media screen and (max-width: 500px) {
+        width: 95px;
+        height: 94px;
+      }
+    }
+    img:focus {
+      outline: 2px solid #f18c8c;
+    }
     img {
       width: 100px;
-      margin-left: 1rem;
+      margin-right: 1rem;
+      // @media screen and(max-width:
+
+      // }
     }
-    i {
+    .plusIcon {
+      font-size: 2rem;
+      color: gray;
+      margin-bottom: 0.4rem;
+    }
+    .crossIcon {
       position: absolute;
-      padding-top: 5px;
-      padding-left: 1rem;
+      padding-top: 2px;
+      padding-left: 2px;
+      width: 20px;
+      height: 20px;
       cursor: pointer;
     }
   }
   .previews {
     margin-top: 1rem;
-    background: white;
     padding: 1rem;
     border-radius: 8px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     flex-direction: column;
+    @media screen and(max-width:500px) {
+      padding: 0.5rem;
+    }
 
     .staging {
       max-width: 100%;
@@ -65,21 +108,31 @@
       justify-content: space-between;
       .tags {
         width: 25%;
+        display: flex;
+        flex-direction: column;
+
+        .tagsTitle {
+          margin-top: 0;
+          margin-bottom: 0.2rem;
+          color: white;
+        }
         .doneBtn {
-          margin-top: 0.5rem;
           border: none;
           color: white;
-          background: #f18c8c;
+          background: #f05a5a;
           text-align: center;
           width: 100%;
           padding: 0.4rem 0.5rem;
+          margin-top: auto;
+          margin-bottom: 3%;
           cursor: pointer;
           &:hover {
             background: #eeb7b7;
           }
         }
         .disable {
-          margin-top: 0.5rem;
+          margin-top: auto;
+          margin-bottom: 3%;
 
           cursor: text;
           background-color: rgb(190, 190, 190);
@@ -92,12 +145,14 @@
       .StagingPicDiv {
         width: 65%;
         img {
-          width: 360px;
-          height: 200px;
+          width: 100%;
+          height: 180px;
           object-fit: cover;
+          animation: fadeIn 0.5s;
         }
         .activeTags {
           display: flex;
+          flex-wrap: wrap;
         }
       }
       .tagRow {
@@ -108,17 +163,23 @@
         padding: 0.1rem 0.2rem;
         text-align: center;
         cursor: pointer;
+
         i {
           font-size: 0.7rem;
           margin-right: 0.2rem;
+          color: white;
         }
         .taggedIcon {
-          color: #f18c8c;
+          color: #f05a5a;
         }
         p {
           font-size: 0.8rem;
           margin: 0;
-          border-bottom: 1px solid #f18c8c;
+          color: #f18c8c;
+          // border-bottom: 1px solid #f18c8c;
+          @media screen and (max-width: 600px) {
+            font-size: 0.6rem;
+          }
         }
         .tagged {
           border-bottom: none;
@@ -126,14 +187,24 @@
       }
     }
     .thumbsDiv {
+      // @media screen and (max-width: 600px) {
+      //   font-size: 0.6rem;
+      // }
+      margin-top: 1rem;
       display: flex;
+      flex-wrap: wrap;
       .previewThumb {
         width: 100px;
         height: 100px;
-        object-fit: contain;
+        object-fit: cover;
+        @media screen and(max-width:500px) {
+          width: 120px;
+          height: 120px;
+        }
       }
     }
   }
+
   .uploadInput::before,
   .uploadInput:after {
     -webkit-box-sizing: border-box;
@@ -142,6 +213,7 @@
   }
 
   .uploadInput {
+    display: inline-block;
     margin: 0;
     font: 1rem/1.5 "Montserrat", Arial, sans-serif;
     color: #ffffff;
@@ -183,8 +255,12 @@
     top: 50% !important;
   }
   @media screen and (max-width: 1100px) {
-    top: 40% !important;
+    top: 45% !important;
     max-height: 80vh;
+  }
+  @media screen and (max-width: 600px) {
+    top: 50% !important;
+    max-height: 100vh;
   }
 }
 .clickedImage {

@@ -4,3 +4,16 @@ body {
   margin: 0;
   font-family: "Montserrat";
 }
+
+/* input override */
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 12px 12px;
+  cursor: pointer;
+}

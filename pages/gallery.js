@@ -6,47 +6,51 @@ import style from "../sass/GalleryPage.module.scss";
 import axios from "axios";
 import Modal from "react-modal";
 import Head from "next/head";
+import cancelIcon from "../images/times-circle-solid.png";
 
-//modal styles
+import useWindowSize from "../utils/useWindowSize";
+
 Modal.setAppElement("body");
 
-const photoModalStyle = {
-  content: {
-    width: "60%",
-    top: "10%",
-    left: "20%",
-    bottom: "auto",
-    marginRight: "-50%",
-    backgroundColor: "transparent",
-    borderRadius: "8px",
-    borderColor: "transparent",
-  },
-  overlay: {
-    backgroundColor: "rgba(255, 255, 255, 0.37)",
-  },
-};
-
-const uploadModalStyle = {
-  content: {
-    position: "absolute",
-    bottom: "0",
-    top: "20%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    overflow: "auto",
-    bottom: "auto",
-    backgroundColor: "rgb(49 49 49)",
-    borderRadius: "8px",
-    borderColor: "transparent",
-    maxHeight: "60vh",
-    width: "70%",
-  },
-  overlay: {
-    backgroundColor: "rgba(255, 255, 255, 0.37)",
-  },
-};
-
 export default function Gallery() {
+  // windowSize custom hook
+  const size = useWindowSize();
+  //modal styles
+
+  const photoModalStyle = {
+    content: {
+      width: "60%",
+      top: "10%",
+      left: "20%",
+      bottom: "auto",
+      marginRight: "-50%",
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+    },
+    overlay: {
+      backgroundColor: "rgba(255, 255, 255, 0.37)",
+    },
+  };
+
+  const uploadModalStyle = {
+    content: {
+      position: "absolute",
+      bottom: "0",
+      top: "35%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      overflow: "auto",
+      bottom: "auto",
+      backgroundColor: "rgb(49 49 49)",
+      borderRadius: "0",
+      borderColor: "transparent",
+      maxHeight: "80vh",
+      width: size.width < 400 ? "85%" : "70%",
+    },
+    overlay: {
+      backgroundColor: "rgba(255, 255, 255, 0.37)",
+    },
+  };
   //state declarations
   const [galleryImages, setGalleryImages] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
@@ -56,18 +60,9 @@ export default function Gallery() {
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [stagedImageIndex, setStagedImageIndex] = useState(0);
   const [previews, setPreviews] = useState([]);
+  const [thumbs, setThumbs] = useState([]);
   const [addingImage, setAddingImage] = useState(false);
   const [tags, setTags] = useState([]);
-  const [tagArray, setTagArray] = useState([]);
-  const [clickedTag, setClickedTag] = useState([
-    {
-      residential: false,
-      commercial: false,
-      interior: false,
-      exterior: false,
-      cabinets: false,
-    },
-  ]);
 
   //variable and function declarations
   const allTags = [
@@ -111,17 +106,19 @@ export default function Gallery() {
           }
         })
       );
-      console.log(tags);
     }
   }
 
-  function clickTag(t) {
-    setClickedTag({ ...clickedTag, [t]: true });
-    console.log("index", stagedImageIndex);
-  }
-
-  function cancelTag(t) {
-    // setTagArray(tagArray.filter((e) => e !== t));
+  function cancelTag(t, i) {
+    setTags(
+      tags.map((arr, index) => {
+        if (index === i) {
+          return arr.filter((tag) => tag !== t);
+        } else {
+          return arr;
+        }
+      })
+    );
   }
 
   // toast functions
@@ -172,13 +169,16 @@ export default function Gallery() {
     if (previews.length > 1) {
       const temp1 = previews.splice(i, 1);
       const temp2 = imagesToUpload.splice(i, 1);
-      setPreviews(previews.filter((el) => el !== temp1));
-
+      const temp3 = tags.splice(i, 1);
+      setThumbs(previews.filter((el) => el !== temp1));
       setImagesToUpload(
         imagesToUpload.filter((el) => el !== temp2.splice(i, 1))
       );
+      setTags(tags.filter((t) => t !== temp3));
       setAddingImage(false);
     } else {
+      setTags([]);
+      setThumbs([]);
       setPreviews([]);
       setImagesToUpload([]);
     }
@@ -221,10 +221,8 @@ export default function Gallery() {
       );
       setPreviews([...previews, { [objectUrl]: imagesToUpload.length - 1 }]);
       setStagedImageIndex(imagesToUpload.length - 1);
-      console.log(previews);
       setAddingImage(false);
     }
-    console.log("itu1", imagesToUpload);
   }, [imagesToUpload]);
 
   useEffect(() => {
@@ -302,11 +300,11 @@ export default function Gallery() {
               <i className="fas fa-plus"></i>Upload
             </button>
           </form>
-          <div className={style.previews}>
+          <div className={previews.length > 0 ? style.previews : null}>
             {previews.length > 0 && (
               <div className={style.staging}>
                 <div className={style.tags}>
-                  <p>Tags</p>
+                  <p className={style.tagsTitle}>Tags</p>
 
                   {!tags[stagedImageIndex]
                     ? allTags.map((t) => (
@@ -314,7 +312,6 @@ export default function Gallery() {
                           className={style.tagRow}
                           onClick={() => {
                             addTag(t, stagedImageIndex);
-                            clickTag(t);
                           }}
                         >
                           <i className="fas fa-tag"></i>
@@ -355,26 +352,28 @@ export default function Gallery() {
                         : style.doneBtn
                     }
                     onClick={() => {
-                      console.log(tags);
+                      setThumbs(previews);
                     }}
                   >
                     Done
                   </button>
                 </div>
                 <div className={style.StagingPicDiv}>
-                  <img
-                    style={style.stagingPic}
-                    src={Object.keys(previews[stagedImageIndex])[0]}
-                    alt="staging preview"
-                  />
+                  {previews[stagedImageIndex] && (
+                    <img
+                      style={style.stagingPic}
+                      src={Object.keys(previews[stagedImageIndex])[0]}
+                      alt="staging preview"
+                    />
+                  )}
+
                   <div className={style.activeTags}>
                     {tags[stagedImageIndex] &&
                       tags[stagedImageIndex].map((t) => (
                         <div
                           className={style.tagRow}
                           onClick={() => {
-                            cancelTag(t);
-                            setClickedTag({ ...clickedTag, [t]: false });
+                            cancelTag(t, stagedImageIndex);
                           }}
                         >
                           <i className={`${style.taggedIcon} fas fa-times`}></i>
@@ -385,29 +384,37 @@ export default function Gallery() {
                 </div>
               </div>
             )}
-            <div className={style.thumbsDiv}>
-              {previews.length > 0 &&
-                previews.map((p, i) => (
+            <div className={style.mainthumbsDiv}>
+              {thumbs.length > 0 && (
+                <div className={style.thumbsDiv}>
+                  <label for="file-upload" class="custom-file-upload">
+                    <p>Add More</p>
+                    <i className={`fas fa-plus ${style.plusIcon}`}></i>
+                  </label>
+                  <input id="file-upload" type="file" onChange={onFileChange} />
+                </div>
+              )}
+              {thumbs.length > 0 &&
+                thumbs.map((p, i) => (
                   <div
                     className={style.thumbsDiv}
                     onClick={() => {
                       setStagedImageIndex(i);
                     }}
                   >
-                    <i
-                      class="far fa-times-circle"
+                    <img
+                      className={style.crossIcon}
                       onClick={() => {
                         deleteUpload(i);
-                        setClickedTag({
-                          residential: false,
-                          commercial: false,
-                          interior: false,
-                          exterior: false,
-                          cabinets: false,
-                        });
                       }}
-                    ></i>
-                    <img className={style.previewThumb} src={Object.keys(p)} />
+                      src={cancelIcon}
+                      alt="exit"
+                    />
+                    <img
+                      className={style.previewThumb}
+                      src={Object.keys(p)}
+                      tabindex={i}
+                    />
                   </div>
                 ))}
             </div>
