@@ -58,20 +58,25 @@ export default function Gallery() {
   const [uploadModalIsOpen, setUploadModal] = useState(false);
   const [logged, setLogged] = useState(null);
   const [imagesToUpload, setImagesToUpload] = useState([]);
+  const [clickedDone, setClickedDone] = useState(false);
   const [stagedImageIndex, setStagedImageIndex] = useState(0);
-  const [previews, setPreviews] = useState([]);
+  const [preview, setPreview] = useState(null);
   const [thumbs, setThumbs] = useState([]);
   const [addingImage, setAddingImage] = useState(false);
   const [tags, setTags] = useState([]);
+  const [inputKey, setInputkey] = useState();
+  const [category, setActiveCategory] = useState("All");
 
   //variable and function declarations
   const allTags = [
-    "residential",
-    "commercial",
-    "interior",
-    "exterior",
-    "cabinets",
+    "Residential",
+    "Commercial",
+    "Interior",
+    "Exterior",
+    "Cabinets",
   ];
+
+  const allCategories = ["All"].concat(allTags);
 
   //Modal functions
 
@@ -158,19 +163,26 @@ export default function Gallery() {
     });
 
   // file functions
-
+  const resetInput = () => {
+    let sign = Date.now();
+    setInputkey(sign);
+  };
   const onFileChange = (e) => {
+    setClickedDone(false);
     setAddingImage(true);
     setImagesToUpload([...imagesToUpload, e.target.files[0]]);
     setStagedImageIndex(imagesToUpload.length - 1);
   };
 
   function deleteUpload(i) {
-    if (previews.length > 1) {
-      const temp1 = previews.splice(i, 1);
+    if (thumbs.length > 1) {
+      if (preview === thumbs[i]) {
+        setPreview(thumbs[i - 1]);
+      }
+      const temp1 = thumbs.splice(i, 1);
       const temp2 = imagesToUpload.splice(i, 1);
       const temp3 = tags.splice(i, 1);
-      setThumbs(previews.filter((el) => el !== temp1));
+      setThumbs(thumbs.filter((el) => el !== temp1));
       setImagesToUpload(
         imagesToUpload.filter((el) => el !== temp2.splice(i, 1))
       );
@@ -179,8 +191,9 @@ export default function Gallery() {
     } else {
       setTags([]);
       setThumbs([]);
-      setPreviews([]);
       setImagesToUpload([]);
+      setPreview(null);
+      console.log("preview", preview);
     }
   }
 
@@ -203,7 +216,7 @@ export default function Gallery() {
         console.log(res);
         successToast();
         closeUploadModal();
-        setPreviews([]);
+        setPreview(null);
         setImagesToUpload([]);
       })
       .catch((err) => {
@@ -219,9 +232,10 @@ export default function Gallery() {
       const objectUrl = URL.createObjectURL(
         imagesToUpload[imagesToUpload.length - 1]
       );
-      setPreviews([...previews, { [objectUrl]: imagesToUpload.length - 1 }]);
+      setPreview(objectUrl);
       setStagedImageIndex(imagesToUpload.length - 1);
       setAddingImage(false);
+      console.log("***", imagesToUpload);
     }
   }, [imagesToUpload]);
 
@@ -290,6 +304,7 @@ export default function Gallery() {
         <div className={style.uploadModal}>
           <form onSubmit={onSubmit}>
             <input
+              key={inputKey || ""}
               type="file"
               name="imgCollection"
               className={style.uploadInput}
@@ -300,8 +315,8 @@ export default function Gallery() {
               <i className="fas fa-plus"></i>Upload
             </button>
           </form>
-          <div className={previews.length > 0 ? style.previews : null}>
-            {previews.length > 0 && (
+          <div className={preview ? style.previews : null}>
+            {preview && (
               <div className={style.staging}>
                 <div className={style.tags}>
                   <p className={style.tagsTitle}>Tags</p>
@@ -343,26 +358,30 @@ export default function Gallery() {
                           </div>
                         ))}
                   <button
-                    disabled={!tags[stagedImageIndex] ? "disabled" : null}
+                    disabled={
+                      !tags[stagedImageIndex] || clickedDone ? "disabled" : null
+                    }
                     className={
                       tags[stagedImageIndex]
                         ? tags[stagedImageIndex].length === 0
                           ? style.disable
                           : style.doneBtn
-                        : style.doneBtn
+                        : style.disable
                     }
                     onClick={() => {
-                      setThumbs(previews);
+                      setThumbs([...thumbs, preview]);
+                      setClickedDone(true);
+                      resetInput();
                     }}
                   >
                     Done
                   </button>
                 </div>
                 <div className={style.StagingPicDiv}>
-                  {previews[stagedImageIndex] && (
+                  {preview && (
                     <img
                       style={style.stagingPic}
-                      src={Object.keys(previews[stagedImageIndex])[0]}
+                      src={preview}
                       alt="staging preview"
                     />
                   )}
@@ -400,6 +419,7 @@ export default function Gallery() {
                     className={style.thumbsDiv}
                     onClick={() => {
                       setStagedImageIndex(i);
+                      thumbs.length > 1 && setPreview(thumbs[i]);
                     }}
                   >
                     <img
@@ -410,11 +430,7 @@ export default function Gallery() {
                       src={cancelIcon}
                       alt="exit"
                     />
-                    <img
-                      className={style.previewThumb}
-                      src={Object.keys(p)}
-                      tabindex={i}
-                    />
+                    <img className={style.previewThumb} src={p} tabindex={i} />
                   </div>
                 ))}
             </div>
@@ -429,7 +445,24 @@ export default function Gallery() {
             Upload
           </div>
         )}
-
+        <div className={style.categories}>
+          {allCategories.map((c, i) => {
+            return (
+              <div
+                className={
+                  category === c
+                    ? `${style.tagBtn} ${style.activeTagBtn}`
+                    : style.tagBtn
+                }
+                onClick={() => {
+                  setActiveCategory(c);
+                }}
+              >
+                {c}
+              </div>
+            );
+          })}
+        </div>
         <div className={style.grid}>
           <div className={style.rows}>
             {galleryImages.map((url, index) => {
