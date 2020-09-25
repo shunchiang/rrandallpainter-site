@@ -210,7 +210,10 @@ export default function Gallery() {
     for (const pair of formData.entries()) {
       console.log(pair[1]);
     }
-    axios
+    const axiosInstance = axios.create({
+      withCredentials: true,
+    });
+    axiosInstance
       .post("http://localhost:3080/api/upload", formData)
       .then((res) => {
         console.log(res);
@@ -467,15 +470,17 @@ export default function Gallery() {
           <div className={style.rows}>
             {galleryImages.map((url, index) => {
               return (
-                <img
-                  src={url}
-                  className={style.galleryImage}
-                  alt={`picture at index ${index}`}
-                  onClick={() => {
-                    openModal();
-                    setClickedImage(url);
-                  }}
-                />
+                <div className={style.item}>
+                  <img
+                    src={url}
+                    className={style.galleryImage}
+                    alt={`picture at index ${index}`}
+                    onClick={() => {
+                      openModal();
+                      setClickedImage(url);
+                    }}
+                  />
+                </div>
               );
             })}
           </div>
