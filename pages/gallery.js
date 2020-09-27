@@ -78,6 +78,10 @@ export default function Gallery() {
 
   const allCategories = ["All"].concat(allTags);
 
+  const axiosInstance = axios.create({
+    withCredentials: true,
+  });
+
   //Modal functions
 
   function openModal() {
@@ -210,9 +214,7 @@ export default function Gallery() {
     for (const pair of formData.entries()) {
       console.log(pair[1]);
     }
-    const axiosInstance = axios.create({
-      withCredentials: true,
-    });
+
     axiosInstance
       .post("http://localhost:3080/api/upload", formData)
       .then((res) => {
@@ -250,8 +252,9 @@ export default function Gallery() {
       .catch((err) => console.log(err));
   }, []);
 
+  //initialize
   useEffect(() => {
-    axios
+    axiosInstance
       .post(
         "http://localhost:3080/images/",
         {},
@@ -264,6 +267,18 @@ export default function Gallery() {
       .then((res) => {
         console.log(res.data);
         setGalleryImages(res.data);
+        return axiosInstance.get("http://localhost:3080/images/");
+      })
+      .then((res) => {
+        console.log(res.data);
+        return axiosInstance.post("http://localhost:3080/api/tags", {
+          ids: res.data,
+        });
+      })
+      .then((res) => console.log("**tags", res.data))
+      .catch((err) => console.log("cannot get tags", err))
+      .catch((err) => {
+        console.log("cannot GET", err);
       })
       .catch((err) => {
         console.log(err);
