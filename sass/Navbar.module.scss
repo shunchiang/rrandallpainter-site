@@ -1,4 +1,7 @@
 .navbarContainer {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
   display: flex;
   justify-content: space-around;
   background-color: black;
@@ -54,5 +57,71 @@
     @media screen and (min-width: 850px) {
       width: 25%;
     }
+  }
+}
+
+//modal
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    background: none;
+    color: white;
+    border: none;
+    font-size: 1.4rem;
+    margin-bottom: 1.8rem;
+    cursor: pointer;
+  }
+}
+.contactInputs {
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    label {
+      margin-bottom: 0.3rem;
+      align-self: flex-start;
+      margin-left: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+    .textArea {
+      width: 80%;
+      margin-bottom: 2rem;
+      border-radius: 2px;
+      font-family: "Montserrat";
+    }
+    .sendBtn {
+      width: 35%;
+      height: 2rem;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 0;
+      background: #f05a5a;
+      color: white;
+      font-weight: bold;
+    }
+    input {
+      border-radius: 3px;
+      margin-bottom: 1rem;
+      margin-right: 5rem;
+      margin-left: 5rem;
+      width: 80%;
+      height: 2.5vh;
+      font-family: "Montserrat";
+    }
+  }
+}
+
+@keyframes modalFade {
+  from {
+    transform: translate(-50%, -80%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-10%, -10%);
+    opacity: 1;
   }
 }

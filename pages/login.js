@@ -22,12 +22,13 @@ export default function Login() {
     event.preventDefault();
     axiosInstance
       .post(
-        "http://localhost:3080/login",
+        "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/login",
         {},
         {
           headers: {
             authorization:
               "Basic " + btoa(formState.username + ":" + formState.password),
+            "Access-Control-Allow-Origin": "*",
           },
         }
       )

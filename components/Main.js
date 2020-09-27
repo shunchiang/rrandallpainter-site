@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Reviews from "./Reviews";
 import Gallery from "./Gallery";
 import Contact from "./Contact";
