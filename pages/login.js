@@ -16,6 +16,7 @@ export default function Login() {
 
   const axiosInstance = axios.create({
     withCredentials: true,
+    "Access-Control-Allow-Credentials": true,
   });
 
   const onSubmit = (event) => {
