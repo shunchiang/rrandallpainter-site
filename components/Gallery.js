@@ -12,7 +12,7 @@ export default function Gallery() {
   useEffect(() => {
     axios
       .post(
-        "http://localhost:3080/images/",
+        "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/",
         {},
         {
           headers: {

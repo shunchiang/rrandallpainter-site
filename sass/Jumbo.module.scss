@@ -1,6 +1,8 @@
 .jumboTron {
   .heroImage {
     width: 100%;
+    filter: brightness(70%);
+    margin-top: 5vh;
 
     @media screen and (min-width: 500px) {
       height: 90vh;

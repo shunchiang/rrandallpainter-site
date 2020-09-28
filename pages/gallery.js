@@ -53,6 +53,7 @@ export default function Gallery() {
   };
   //state declarations
   const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryTags, setGalleryTags] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModal] = useState(false);
@@ -210,13 +211,17 @@ export default function Gallery() {
     imagesToUpload.forEach((e, i) => {
       formData.append("images", e);
       formData.append("tags", tags[i]);
+      console.log(tags[i]);
     });
     for (const pair of formData.entries()) {
-      console.log(pair[1]);
+      console.log(pair[1], pair[2]);
     }
 
     axiosInstance
-      .post("http://localhost:3080/api/upload", formData)
+      .post(
+        "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/upload",
+        formData
+      )
       .then((res) => {
         console.log(res);
         successToast();
@@ -246,8 +251,10 @@ export default function Gallery() {
 
   useEffect(() => {
     setLogged(localStorage.getItem("rrandall-authorization"));
-    axios
-      .get("http://localhost:3080/images/search")
+    axiosInstance
+      .get(
+        "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/search"
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }, []);
@@ -256,7 +263,7 @@ export default function Gallery() {
   useEffect(() => {
     axiosInstance
       .post(
-        "http://localhost:3080/images/",
+        "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/",
         {},
         {
           headers: {
@@ -266,16 +273,28 @@ export default function Gallery() {
       )
       .then((res) => {
         console.log(res.data);
-        setGalleryImages(res.data);
-        return axiosInstance.get("http://localhost:3080/images/");
+        setGalleryImages(
+          res.data.map((a, i) => {
+            return { id: i, url: a };
+          })
+        );
+        return axiosInstance.get(
+          "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/"
+        );
       })
       .then((res) => {
         console.log(res.data);
-        return axiosInstance.post("http://localhost:3080/api/tags", {
-          ids: res.data,
-        });
+        return axiosInstance.post(
+          "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/tags",
+          {
+            ids: res.data,
+          }
+        );
       })
-      .then((res) => console.log("**tags", res.data))
+      .then((res) => {
+        console.log("**tags", res.data);
+        setGalleryTags(res.data);
+      })
       .catch((err) => console.log("cannot get tags", err))
       .catch((err) => {
         console.log("cannot GET", err);
@@ -284,6 +303,15 @@ export default function Gallery() {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    if (galleryTags.length > 0) {
+      setGalleryImages(
+        galleryImages.map((a, i) => {
+          return { id: a.id, url: a.url, tags: galleryTags[i] };
+        })
+      );
+    }
+  }, [galleryTags]);
 
   return (
     <>
@@ -483,21 +511,43 @@ export default function Gallery() {
         </div>
         <div className={style.grid}>
           <div className={style.rows}>
-            {galleryImages.map((url, index) => {
-              return (
-                <div className={style.item}>
-                  <img
-                    src={url}
-                    className={style.galleryImage}
-                    alt={`picture at index ${index}`}
-                    onClick={() => {
-                      openModal();
-                      setClickedImage(url);
-                    }}
-                  />
-                </div>
-              );
-            })}
+            {category === "All"
+              ? galleryImages.map((el, index) => {
+                  return (
+                    <div className={style.item}>
+                      <img
+                        src={el.url}
+                        className={style.galleryImage}
+                        alt={`picture at index ${index}`}
+                        onClick={() => {
+                          openModal();
+                          setClickedImage(url);
+                        }}
+                      />
+                    </div>
+                  );
+                })
+              : category !== "ALL" && galleryTags.length > 0
+              ? galleryImages
+                  .filter((el) => {
+                    return el.tags.includes(category.toLowerCase());
+                  })
+                  .map((el, index) => {
+                    return (
+                      <div className={style.item}>
+                        <img
+                          src={el.url}
+                          className={style.galleryImage}
+                          alt={`picture at index ${index}`}
+                          onClick={() => {
+                            openModal();
+                            setClickedImage(url);
+                          }}
+                        />
+                      </div>
+                    );
+                  })
+              : null}
           </div>
         </div>
       </div>

@@ -17,3 +17,21 @@ input[type="file"] {
   padding: 12px 12px;
   cursor: pointer;
 }
+
+/* modal global */
+
+.ReactModal__Content {
+  animation-name: modalFade;
+  animation-duration: 0.6s;
+}
+
+@keyframes modalFade {
+  from {
+    transform: translate(-50%, -80%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-10%, -10%);
+    opacity: 1;
+  }
+}
