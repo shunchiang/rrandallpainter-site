@@ -16,7 +16,6 @@ export default function Login() {
 
   const axiosInstance = axios.create({
     withCredentials: true,
-    "Access-Control-Allow-Credentials": true,
   });
 
   const onSubmit = (event) => {
@@ -29,7 +28,6 @@ export default function Login() {
           headers: {
             authorization:
               "Basic " + btoa(formState.username + ":" + formState.password),
-            "Access-Control-Allow-Origin": "*",
           },
         }
       )

@@ -264,12 +264,7 @@ export default function Gallery() {
     axiosInstance
       .post(
         "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/",
-        {},
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
+        {}
       )
       .then((res) => {
         console.log(res.data);
