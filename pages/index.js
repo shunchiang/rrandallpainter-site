@@ -17,6 +17,7 @@ const Index = () => {
         />
       </Head>
       <Navbar />
+      <NavbarSpacer />
       <Jumbo />
       <Main />
     </>

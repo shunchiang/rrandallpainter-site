@@ -10,7 +10,7 @@ export default function Main() {
   return (
     <>
       <div className={style.about}>
-        <p className={style.aboutTitle}>15 Years of excellence</p>
+        <p className={style.aboutTitle}>30 Years of excellence</p>
         <div className={style.line}></div>
         <p className={style.aboutContent}>
           We are a fox valley based, down to earth service commited to
