@@ -10,7 +10,7 @@ export default function Main() {
   return (
     <>
       <div className={style.about}>
-        <p className={style.aboutTitle}>15 Years of excellence</p>
+        <p className={style.aboutTitle}>30 Years of excellence</p>
         <div className={style.line}></div>
         <p className={style.aboutContent}>
           We are a fox valley based, down to earth service commited to
@@ -22,7 +22,7 @@ export default function Main() {
         <div className={style.residential}>
           <div className={style.resContent}>
             <div className={style.resTitleBox}>
-              <i class="fas fa-home"></i>
+              <i className="fas fa-home"></i>
               <p className={style.resTitle}>Residential</p>
             </div>
             <p className={style.resText}>

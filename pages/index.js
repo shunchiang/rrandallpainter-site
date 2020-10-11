@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
+import NavbarSpacer from "../components/NavbarSpacer";
 import Jumbo from "../components/Jumbo";
 import Main from "../components/Main";
 
@@ -17,6 +18,7 @@ const Index = () => {
         />
       </Head>
       <Navbar />
+      <NavbarSpacer />
       <Jumbo />
       <Main />
     </>
