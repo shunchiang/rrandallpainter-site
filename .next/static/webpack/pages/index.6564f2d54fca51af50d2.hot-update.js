@@ -1,0 +1,25 @@
+webpackHotUpdate_N_E("pages/index",{
+
+/***/ "./node_modules/css-loader/dist/cjs.js?!./node_modules/next/dist/compiled/postcss-loader/index.js?!./node_modules/resolve-url-loader/index.js?!./node_modules/sass-loader/dist/cjs.js?!./sass/EditBtn.module.scss":
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-oneOf-3-1!./node_modules/next/dist/compiled/postcss-loader??__nextjs_postcss!./node_modules/resolve-url-loader??ref--5-oneOf-3-3!./node_modules/sass-loader/dist/cjs.js??ref--5-oneOf-3-4!./sass/EditBtn.module.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(true);
+// Module
+exports.push([module.i, ".EditBtn_EditBtn__1YZPQ {\n  position: absolute;\n  top: -1em;\n  right: -1em;\n  width: 3em;\n  height: 3em;\n  border-radius: 15%;\n  background-color: white;\n  overflow: hidden;\n  transition: 0.3s;\n}\n.EditBtn_EditBtn__1YZPQ:hover {\n  border-radius: 50%;\n}", "",{"version":3,"sources":["C:/Users/meich/Documents/Github Projects/rrandallpainter-site/sass/EditBtn.module.scss"],"names":[],"mappings":"AAAA;EAEI,kBAAA;EACA,SAAA;EACA,WAAA;EACA,UAAA;EACA,WAAA;EACA,kBAAA;EACA,uBAAA;EACA,gBAAA;EACA,gBAAA;AAAJ;AACI;EAEI,kBAAA;AAAR","file":"EditBtn.module.scss","sourcesContent":[".EditBtn\r\n{\r\n    position: absolute;\r\n    top: -1em;\r\n    right: -1em;\r\n    width: 3em;\r\n    height: 3em;\r\n    border-radius: 15%;\r\n    background-color: white;\r\n    overflow: hidden;\r\n    transition: 0.3s;\r\n    &:hover\r\n    {\r\n        border-radius: 50%;\r\n    }\r\n}\r\n"]}]);
+// Exports
+exports.locals = {
+	"EditBtn": "EditBtn_EditBtn__1YZPQ"
+};
+module.exports = exports;
+
+
+/***/ })
+
+})
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9fTl9FLy4vc2Fzcy9FZGl0QnRuLm1vZHVsZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUFBO0FBQ0Esa0NBQWtDLG1CQUFPLENBQUMscUdBQWdEO0FBQzFGO0FBQ0E7QUFDQSxjQUFjLFFBQVMsNEJBQTRCLHVCQUF1QixjQUFjLGdCQUFnQixlQUFlLGdCQUFnQix1QkFBdUIsNEJBQTRCLHFCQUFxQixxQkFBcUIsR0FBRyxpQ0FBaUMsdUJBQXVCLEdBQUcsT0FBTyw2SUFBNkksV0FBVyxVQUFVLFVBQVUsVUFBVSxVQUFVLFdBQVcsV0FBVyxXQUFXLFdBQVcsS0FBSyxLQUFLLFdBQVcsbUVBQW1FLDJCQUEyQixrQkFBa0Isb0JBQW9CLG1CQUFtQixvQkFBb0IsMkJBQTJCLGdDQUFnQyx5QkFBeUIseUJBQXlCLHdCQUF3QiwrQkFBK0IsU0FBUyxLQUFLLE9BQU87QUFDOTRCO0FBQ0E7QUFDQTtBQUNBO0FBQ0EiLCJmaWxlIjoic3RhdGljL3dlYnBhY2svcGFnZXMvaW5kZXguNjU2NGYyZDU0ZmNhNTFhZjUwZDIuaG90LXVwZGF0ZS5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vIEltcG9ydHNcbnZhciBfX19DU1NfTE9BREVSX0FQSV9JTVBPUlRfX18gPSByZXF1aXJlKFwiLi4vbm9kZV9tb2R1bGVzL2Nzcy1sb2FkZXIvZGlzdC9ydW50aW1lL2FwaS5qc1wiKTtcbmV4cG9ydHMgPSBfX19DU1NfTE9BREVSX0FQSV9JTVBPUlRfX18odHJ1ZSk7XG4vLyBNb2R1bGVcbmV4cG9ydHMucHVzaChbbW9kdWxlLmlkLCBcIi5FZGl0QnRuX0VkaXRCdG5fXzFZWlBRIHtcXG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcXG4gIHRvcDogLTFlbTtcXG4gIHJpZ2h0OiAtMWVtO1xcbiAgd2lkdGg6IDNlbTtcXG4gIGhlaWdodDogM2VtO1xcbiAgYm9yZGVyLXJhZGl1czogMTUlO1xcbiAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XFxuICBvdmVyZmxvdzogaGlkZGVuO1xcbiAgdHJhbnNpdGlvbjogMC4zcztcXG59XFxuLkVkaXRCdG5fRWRpdEJ0bl9fMVlaUFE6aG92ZXIge1xcbiAgYm9yZGVyLXJhZGl1czogNTAlO1xcbn1cIiwgXCJcIix7XCJ2ZXJzaW9uXCI6MyxcInNvdXJjZXNcIjpbXCJDOi9Vc2Vycy9tZWljaC9Eb2N1bWVudHMvR2l0aHViIFByb2plY3RzL3JyYW5kYWxscGFpbnRlci1zaXRlL3Nhc3MvRWRpdEJ0bi5tb2R1bGUuc2Nzc1wiXSxcIm5hbWVzXCI6W10sXCJtYXBwaW5nc1wiOlwiQUFBQTtFQUVJLGtCQUFBO0VBQ0EsU0FBQTtFQUNBLFdBQUE7RUFDQSxVQUFBO0VBQ0EsV0FBQTtFQUNBLGtCQUFBO0VBQ0EsdUJBQUE7RUFDQSxnQkFBQTtFQUNBLGdCQUFBO0FBQUo7QUFDSTtFQUVJLGtCQUFBO0FBQVJcIixcImZpbGVcIjpcIkVkaXRCdG4ubW9kdWxlLnNjc3NcIixcInNvdXJjZXNDb250ZW50XCI6W1wiLkVkaXRCdG5cXHJcXG57XFxyXFxuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcXHJcXG4gICAgdG9wOiAtMWVtO1xcclxcbiAgICByaWdodDogLTFlbTtcXHJcXG4gICAgd2lkdGg6IDNlbTtcXHJcXG4gICAgaGVpZ2h0OiAzZW07XFxyXFxuICAgIGJvcmRlci1yYWRpdXM6IDE1JTtcXHJcXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XFxyXFxuICAgIG92ZXJmbG93OiBoaWRkZW47XFxyXFxuICAgIHRyYW5zaXRpb246IDAuM3M7XFxyXFxuICAgICY6aG92ZXJcXHJcXG4gICAge1xcclxcbiAgICAgICAgYm9yZGVyLXJhZGl1czogNTAlO1xcclxcbiAgICB9XFxyXFxufVxcclxcblwiXX1dKTtcbi8vIEV4cG9ydHNcbmV4cG9ydHMubG9jYWxzID0ge1xuXHRcIkVkaXRCdG5cIjogXCJFZGl0QnRuX0VkaXRCdG5fXzFZWlBRXCJcbn07XG5tb2R1bGUuZXhwb3J0cyA9IGV4cG9ydHM7XG4iXSwic291cmNlUm9vdCI6IiJ9

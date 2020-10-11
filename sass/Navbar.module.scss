@@ -80,15 +80,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 20rem;
     label {
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
       align-self: flex-start;
       margin-left: 1.5rem;
       font-weight: 700;
       color: white;
     }
     .textArea {
-      width: 80%;
+      width: 90%;
       margin-bottom: 2rem;
       border-radius: 2px;
       font-family: "Montserrat";
@@ -106,10 +107,8 @@
     input {
       border-radius: 3px;
       margin-bottom: 1rem;
-      margin-right: 5rem;
-      margin-left: 5rem;
-      width: 80%;
-      height: 2.5vh;
+      width: 90%;
+      height: 1.5em;
       font-family: "Montserrat";
     }
   }

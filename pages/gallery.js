@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import Navbar from "../components/Navbar";
+import EditBtn from "../components/EditBtn";
+import EditTags from "../components/Modal_EditTags";
 import style from "../sass/GalleryPage.module.scss";
 import axios from "axios";
 import Modal from "react-modal";
@@ -9,54 +11,31 @@ import Head from "next/head";
 import cancelIcon from "../images/times-circle-solid.png";
 
 import useWindowSize from "../utils/useWindowSize";
+import { Tags } from "../utils/tags";
+
+import { photoModalStyle, uploadModalStyle, tagsModalStyle } from "../utils/modalStyles";
 
 Modal.setAppElement("body");
 
 export default function Gallery() {
-  // windowSize custom hook
+
+  // windowSize Custom Hook
   const size = useWindowSize();
-  //modal styles
+  
+  // Modal Styles - Responsives Sizing
+  photoModalStyle.content.width = size.width <= 1024 ? "95%" : "60%";
+  uploadModalStyle.content.width = size.width <= 1024 ? "95%" : "60%";
+  tagsModalStyle.content.width = size.width <= 1024 ? "95%" : "60%";
 
-  const photoModalStyle = {
-    content: {
-      width: "60%",
-      top: "10%",
-      left: "20%",
-      bottom: "auto",
-      marginRight: "-50%",
-      backgroundColor: "transparent",
-      borderColor: "transparent",
-    },
-    overlay: {
-      backgroundColor: "rgba(255, 255, 255, 0.37)",
-    },
-  };
-
-  const uploadModalStyle = {
-    content: {
-      position: "absolute",
-      bottom: "0",
-      top: "35%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      overflow: "auto",
-      bottom: "auto",
-      backgroundColor: "rgb(49 49 49)",
-      borderRadius: "0",
-      borderColor: "transparent",
-      maxHeight: "80vh",
-      width: size.width < 400 ? "85%" : "70%",
-    },
-    overlay: {
-      backgroundColor: "rgba(255, 255, 255, 0.37)",
-    },
-  };
   //state declarations
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryTags, setGalleryTags] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
+  const [clickedImageId, setClickedImageId] = useState("");
+  const [publicIds, setPublicIds] = useState([])
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModal] = useState(false);
+  const [tagsModalIsOpen, setTagsModal] = useState(false);
   const [logged, setLogged] = useState(null);
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [clickedDone, setClickedDone] = useState(false);
@@ -69,13 +48,7 @@ export default function Gallery() {
   const [category, setActiveCategory] = useState("All");
 
   //variable and function declarations
-  const allTags = [
-    "Residential",
-    "Commercial",
-    "Interior",
-    "Exterior",
-    "Cabinets",
-  ];
+  const allTags = Tags;
 
   const allCategories = ["All"].concat(allTags);
 
@@ -92,12 +65,20 @@ export default function Gallery() {
     setUploadModal(true);
   }
 
+  function openTagsModal() {
+    setTagsModal(true);
+  }
+
   function closeModal() {
     setIsOpen(false);
   }
 
   function closeUploadModal() {
     setUploadModal(false);
+  }
+
+  function closeTagsModal() {
+    setTagsModal(false);
   }
 
   //tagging functions
@@ -255,7 +236,9 @@ export default function Gallery() {
       .get(
         "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/search"
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -279,6 +262,7 @@ export default function Gallery() {
       })
       .then((res) => {
         console.log(res.data);
+        setPublicIds([...res.data]);
         return axiosInstance.post(
           "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/tags",
           {
@@ -298,6 +282,7 @@ export default function Gallery() {
         console.log(err);
       });
   }, []);
+
   useEffect(() => {
     if (galleryTags.length > 0) {
       setGalleryImages(
@@ -327,13 +312,11 @@ export default function Gallery() {
         style={photoModalStyle}
         contentLabel="Modal"
       >
-        <div>
-          <img
-            src={clickedImage}
-            alt="gallery modal"
-            className={style.clickedImage}
-          />
-        </div>
+        <img
+          src={clickedImage}
+          alt="gallery modal"
+          className={style.clickedImage}
+        />
       </Modal>
       <Modal
         isOpen={uploadModalIsOpen}
@@ -471,12 +454,20 @@ export default function Gallery() {
                       src={cancelIcon}
                       alt="exit"
                     />
-                    <img className={style.previewThumb} src={p} tabindex={i} />
+                    <img className={style.previewThumb} src={p} tabIndex={i} />
                   </div>
                 ))}
             </div>
           </div>
         </div>
+      </Modal>
+      <Modal
+        isOpen={tagsModalIsOpen}
+        onRequestClose={closeTagsModal}
+        style={tagsModalStyle}
+        contentLabel="Modal"
+      >
+        <EditTags img={clickedImage} id={clickedImageId}/>
       </Modal>
       <Navbar />
       <div className={style.galleryPage}>
@@ -516,9 +507,17 @@ export default function Gallery() {
                         alt={`picture at index ${index}`}
                         onClick={() => {
                           openModal();
-                          setClickedImage(url);
+                          setClickedImage(el.url);
                         }}
                       />
+                      <div onClick={() => {
+                          openTagsModal()
+                          setClickedImage(el.url)
+                          setClickedImageId(publicIds[index])
+                          console.log(clickedImageId);
+                          }}>
+                        <EditBtn />
+                      </div>
                     </div>
                   );
                 })
@@ -536,9 +535,16 @@ export default function Gallery() {
                           alt={`picture at index ${index}`}
                           onClick={() => {
                             openModal();
-                            setClickedImage(url);
+                            setClickedImage(el.url);
+                            setClickedImageId(publicIds[index])
                           }}
                         />
+                        <div onClick={() => {
+                          openTagsModal()
+                          setClickedImage(el.url)
+                          }}>
+                          <EditBtn />
+                        </div>
                       </div>
                     );
                   })

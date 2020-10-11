@@ -22,7 +22,7 @@ export default function Main() {
         <div className={style.residential}>
           <div className={style.resContent}>
             <div className={style.resTitleBox}>
-              <i class="fas fa-home"></i>
+              <i className="fas fa-home"></i>
               <p className={style.resTitle}>Residential</p>
             </div>
             <p className={style.resText}>

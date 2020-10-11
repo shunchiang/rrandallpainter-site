@@ -1,8 +1,16 @@
 .EditBtn
 {
     position: absolute;
-    top: 1em;
-    right: 1em;
+    top: 0;
+    right: 0;
     width: 3em;
     height: 3em;
+    border-radius: 15%;
+    background-color: white;
+    overflow: hidden;
+    transition: 0.3s;
+    &:hover
+    {
+        filter: brightness(60%);
+    }
 }

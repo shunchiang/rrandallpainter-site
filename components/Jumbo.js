@@ -29,8 +29,8 @@ export default function Jumbo() {
   return (
     <div className={styles.jumboTron}>
       <img className={styles.heroImage} src={mainPhoto} alt="painting sample" />
+      {logged ? <EditBtn/> : null}
       <div className={styles.jumboContent}>
-        <EditBtn/>
         <p className={styles.jumboText}>
           Premium craftsmanship
           <br />
