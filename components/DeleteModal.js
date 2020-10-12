@@ -8,6 +8,7 @@ import style from "../sass/DeleteModal.module.scss";
 
 const axiosInstance = axios.create({
   withCredentials: true,
+  "Content-Type": "application/json",
 });
 
 export default function DeleteModal({
@@ -31,17 +32,12 @@ export default function DeleteModal({
           <button
             className={style.confirmBtn}
             onClick={() => {
-              const idsArray = [];
-              idsArray.push(id);
+              //   const idsArray = [];
+              //   idsArray.push(id);
               axiosInstance
                 .delete(
-                  "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/delete",
-                  { data: idsArray },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
+                  `https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/delete/`,
+                  { data: { files: [id] } }
                 )
                 .then((res) => {
                   console.log(res.data);
@@ -53,7 +49,7 @@ export default function DeleteModal({
                 .catch((err) => {
                   console.log(err);
                   errorToast("Delete Failed");
-                  console.log("ID", id);
+                  console.log("ID", [id]);
                 });
             }}
           >

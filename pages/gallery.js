@@ -500,24 +500,28 @@ export default function Gallery() {
                           setClickedImage(el.url);
                         }}
                       />
-                      <div
-                        onClick={() => {
-                          openTagsModal();
-                          setClickedImage(el.url);
-                          setClickedImageId(publicIds[index]);
-                          console.log(clickedImageId);
-                        }}
-                      >
-                        <EditBtn key={`edit-btn-${index}`} />
-                      </div>
-                      <DeleteBtn
-                        key={`delete-btn-${index}`}
-                        openDeleteModal={openDeleteModal}
-                        setClickedImageId={setClickedImageId}
-                        id={publicIds[index]}
-                        setClickedImage={setClickedImage}
-                        url={el.url}
-                      />
+                      {logged && (
+                        <>
+                          <div
+                            onClick={() => {
+                              openTagsModal();
+                              setClickedImage(el.url);
+                              setClickedImageId(publicIds[index]);
+                              console.log(clickedImageId);
+                            }}
+                          >
+                            <EditBtn key={`edit-btn-${index}`} />
+                          </div>
+                          <DeleteBtn
+                            key={`delete-btn-${index}`}
+                            openDeleteModal={openDeleteModal}
+                            setClickedImageId={setClickedImageId}
+                            id={publicIds[index]}
+                            setClickedImage={setClickedImage}
+                            url={el.url}
+                          />
+                        </>
+                      )}
                     </div>
                   );
                 })
