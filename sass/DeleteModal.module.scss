@@ -1,0 +1,26 @@
+.deleteModalDiv {
+  display: flex;
+  flex-direction: column;
+  p {
+    color: white;
+    text-align: center;
+  }
+  .btnRow {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-evenly;
+    .confirmBtn,
+    .deleteBtn {
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      &:hover {
+        filter: brightness(80%);
+      }
+    }
+    .confirmBtn {
+      background: #f05a5a;
+      color: white;
+    }
+  }
+}

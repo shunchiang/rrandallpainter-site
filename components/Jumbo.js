@@ -9,7 +9,7 @@ import useWindowSize from "../utils/useWindowSize";
 export default function Jumbo() {
   // Helper to grab window size
   const size = useWindowSize();
-  const [mainPhoto, setMainPhoto] = useState(kitchenPhoto);
+  const [mainPhoto, setMainPhoto] = useState(desktopKitchen);
   const [logged, setLogged] = useState(null);
 
   // Grab admin logged in state
@@ -29,7 +29,7 @@ export default function Jumbo() {
   return (
     <div className={styles.jumboTron}>
       <img className={styles.heroImage} src={mainPhoto} alt="painting sample" />
-      {logged ? <EditBtn/> : null}
+      {logged ? <EditBtn /> : null}
       <div className={styles.jumboContent}>
         <p className={styles.jumboText}>
           Premium craftsmanship
