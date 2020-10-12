@@ -1,27 +1,34 @@
 import { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
 import EditBtn from "../components/EditBtn";
+import DeleteBtn from "../components/DeleteBtn";
 import EditTags from "../components/Modal_EditTags";
 import style from "../sass/GalleryPage.module.scss";
 import axios from "axios";
 import Modal from "react-modal";
 import Head from "next/head";
 import cancelIcon from "../images/times-circle-solid.png";
+import DeleteModal from "../components/DeleteModal";
 
 import useWindowSize from "../utils/useWindowSize";
 import { Tags } from "../utils/tags";
 
-import { photoModalStyle, uploadModalStyle, tagsModalStyle } from "../utils/modalStyles";
+import {
+  photoModalStyle,
+  uploadModalStyle,
+  tagsModalStyle,
+} from "../utils/modalStyles";
+
+import { successToast, errorToast, warningToast } from "../utils/toasts";
 
 Modal.setAppElement("body");
 
 export default function Gallery() {
-
   // windowSize Custom Hook
   const size = useWindowSize();
-  
+
   // Modal Styles - Responsives Sizing
   photoModalStyle.content.width = size.width <= 1024 ? "95%" : "60%";
   uploadModalStyle.content.width = size.width <= 1024 ? "95%" : "60%";
@@ -32,10 +39,11 @@ export default function Gallery() {
   const [galleryTags, setGalleryTags] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
   const [clickedImageId, setClickedImageId] = useState("");
-  const [publicIds, setPublicIds] = useState([])
+  const [publicIds, setPublicIds] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModal] = useState(false);
   const [tagsModalIsOpen, setTagsModal] = useState(false);
+  const [deleteModalIsOpen, setDeleteModal] = useState(false);
   const [logged, setLogged] = useState(null);
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [clickedDone, setClickedDone] = useState(false);
@@ -44,6 +52,7 @@ export default function Gallery() {
   const [thumbs, setThumbs] = useState([]);
   const [addingImage, setAddingImage] = useState(false);
   const [tags, setTags] = useState([]);
+  const [tagsLoaded, setTagsLoaded] = useState(false);
   const [inputKey, setInputkey] = useState();
   const [category, setActiveCategory] = useState("All");
 
@@ -69,12 +78,20 @@ export default function Gallery() {
     setTagsModal(true);
   }
 
+  function openDeleteModal() {
+    setDeleteModal(true);
+  }
+
   function closeModal() {
     setIsOpen(false);
   }
 
   function closeUploadModal() {
     setUploadModal(false);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModal(false);
   }
 
   function closeTagsModal() {
@@ -111,42 +128,6 @@ export default function Gallery() {
       })
     );
   }
-
-  // toast functions
-
-  const successToast = () =>
-    toast.success(" Upload Success", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      className: style.toastSuccess,
-    });
-
-  const errorToast = () =>
-    toast.error("Upload error, please refresh", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-  const warningToast = () =>
-    toast.warn("No images selected", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
   // file functions
   const resetInput = () => {
@@ -186,7 +167,7 @@ export default function Gallery() {
   function onSubmit(e) {
     e.preventDefault();
     if (!imagesToUpload.length) {
-      return warningToast();
+      return warningToast("No images selected");
     }
     const formData = new FormData();
     imagesToUpload.forEach((e, i) => {
@@ -205,14 +186,14 @@ export default function Gallery() {
       )
       .then((res) => {
         console.log(res);
-        successToast();
+        successToast("Upload Success");
         closeUploadModal();
         setPreview(null);
         setImagesToUpload([]);
       })
       .catch((err) => {
         console.log(err);
-        errorToast();
+        errorToast("Upload error, please refresh");
       });
   }
 
@@ -237,7 +218,7 @@ export default function Gallery() {
         "https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/images/search"
       )
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -290,6 +271,7 @@ export default function Gallery() {
           return { id: a.id, url: a.url, tags: galleryTags[i] };
         })
       );
+      setTagsLoaded(true);
     }
   }, [galleryTags]);
 
@@ -467,8 +449,16 @@ export default function Gallery() {
         style={tagsModalStyle}
         contentLabel="Modal"
       >
-        <EditTags img={clickedImage} id={clickedImageId}/>
+        <EditTags img={clickedImage} id={clickedImageId} />
       </Modal>
+      <DeleteModal
+        isOpen={deleteModalIsOpen}
+        galleryImages={galleryImages}
+        setGalleryImages={setGalleryImages}
+        onRequestClose={closeDeleteModal}
+        id={clickedImageId}
+        url={clickedImage}
+      />
       <Navbar />
       <div className={style.galleryPage}>
         <h2 className={style.galleryTitle}>Full Gallery</h2>
@@ -510,18 +500,28 @@ export default function Gallery() {
                           setClickedImage(el.url);
                         }}
                       />
-                      <div onClick={() => {
-                          openTagsModal()
-                          setClickedImage(el.url)
-                          setClickedImageId(publicIds[index])
+                      <div
+                        onClick={() => {
+                          openTagsModal();
+                          setClickedImage(el.url);
+                          setClickedImageId(publicIds[index]);
                           console.log(clickedImageId);
-                          }}>
-                        <EditBtn />
+                        }}
+                      >
+                        <EditBtn key={`edit-btn-${index}`} />
                       </div>
+                      <DeleteBtn
+                        key={`delete-btn-${index}`}
+                        openDeleteModal={openDeleteModal}
+                        setClickedImageId={setClickedImageId}
+                        id={publicIds[index]}
+                        setClickedImage={setClickedImage}
+                        url={el.url}
+                      />
                     </div>
                   );
                 })
-              : category !== "ALL" && galleryTags.length > 0
+              : category !== "ALL" && tagsLoaded === true
               ? galleryImages
                   .filter((el) => {
                     return el.tags.includes(category.toLowerCase());
@@ -536,15 +536,9 @@ export default function Gallery() {
                           onClick={() => {
                             openModal();
                             setClickedImage(el.url);
-                            setClickedImageId(publicIds[index])
+                            setClickedImageId(publicIds[index]);
                           }}
                         />
-                        <div onClick={() => {
-                          openTagsModal()
-                          setClickedImage(el.url)
-                          }}>
-                          <EditBtn />
-                        </div>
                       </div>
                     );
                   })
