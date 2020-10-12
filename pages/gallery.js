@@ -107,14 +107,15 @@ export default function Gallery() {
       const temp = tags[i];
       setTags(
         tags.map((arr, index) => {
-          if (index == i) {
-            return (arr[i] = temp.concat(t));
+          if (index === i) {
+            return (tags[i] = temp.concat(t));
           } else {
             return arr;
           }
         })
       );
     }
+    console.log(tags);
   }
 
   function cancelTag(t, i) {

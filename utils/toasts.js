@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import style from "../sass/GalleryPage.module.scss";
 
 export const successToast = (msg) =>
   toast.success(msg, {
