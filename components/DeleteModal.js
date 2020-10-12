@@ -35,9 +35,10 @@ export default function DeleteModal({
               //   const idsArray = [];
               //   idsArray.push(id);
               axiosInstance
-                .delete(
-                  `https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/delete/`,
-                  { data: { files: [id] } }
+                .post(
+                `https://sev3k1liw3.execute-api.us-east-1.amazonaws.com/dev/api/delete/`,
+                {ids: [id]},
+                { headers: { "Content-Type": "application/json" } }
                 )
                 .then((res) => {
                   console.log(res.data);
