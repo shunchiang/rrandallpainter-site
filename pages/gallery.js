@@ -529,7 +529,7 @@ export default function Gallery() {
               : category !== "ALL" && tagsLoaded === true
               ? galleryImages
                   .filter((el) => {
-                    return el.tags.includes(category.toLowerCase());
+                    return el.tags.includes(category);
                   })
                   .map((el, index) => {
                     return (

@@ -54,7 +54,7 @@ export default function Login() {
               onChange={onInputChange}
             />
             <input
-              type="text"
+              type="password"
               name="password"
               value={formState.password}
               placeholder="password"
