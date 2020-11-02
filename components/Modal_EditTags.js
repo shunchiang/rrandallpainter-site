@@ -7,19 +7,26 @@ import { Tags } from "../utils/tags";
 export default function EditTags(props) {
 
     // State Declarations
-    const [tags, setTags] = useState({});
+    const [tags, setTags] = useState(initTags());
     const id = [props.id]
+
+    function initTags()
+    {
+        let initialTags = {};
+        if (props.tags !== undefined)
+        props.tags.map((item) => (
+            initialTags[item] = true
+        ));
+        return initialTags;
+    }
 
     // Toggling Tags Logic
     function toggleTag(tag)
     {
         const newTags = {...tags};
-        console.log(newTags[tag])
         if ( newTags[tag] === true ) delete newTags[tag];
         else newTags[tag] = true;
         setTags(newTags);
-        console.log(newTags)
-        console.log(tags);
     }
 
     const axiosInstance = axios.create({

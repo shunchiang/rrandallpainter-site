@@ -39,6 +39,7 @@ export default function Gallery() {
   const [galleryTags, setGalleryTags] = useState([]);
   const [clickedImage, setClickedImage] = useState("");
   const [clickedImageId, setClickedImageId] = useState("");
+  const [clickedImageIndex, setClickedImageIndex] = useState();
   const [publicIds, setPublicIds] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [uploadModalIsOpen, setUploadModal] = useState(false);
@@ -276,6 +277,10 @@ export default function Gallery() {
     }
   }, [galleryTags]);
 
+  //
+  useEffect(()=>{console.log(galleryImages)},[galleryImages])
+  //
+
   return (
     <>
       <Head>
@@ -450,7 +455,7 @@ export default function Gallery() {
         style={tagsModalStyle}
         contentLabel="Modal"
       >
-        <EditTags img={clickedImage} id={clickedImageId} />
+        <EditTags img={clickedImage} id={clickedImageId} tags={galleryImages[clickedImageIndex] !== undefined ? galleryImages[clickedImageIndex].tags : null} />
       </Modal>
       <DeleteModal
         isOpen={deleteModalIsOpen}
@@ -505,9 +510,10 @@ export default function Gallery() {
                         <>
                           <div
                             onClick={() => {
-                              openTagsModal();
+                              galleryImages[clickedImageIndex] !== undefined ? openTagsModal(): null;
                               setClickedImage(el.url);
                               setClickedImageId(publicIds[index]);
+                              setClickedImageIndex(index);
                               console.log(clickedImageId);
                             }}
                           >
